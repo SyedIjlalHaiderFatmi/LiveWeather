@@ -58,7 +58,10 @@ locationBtn.addEventListener('click', () => {
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
             try {
-               const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,is_day&daily=weathercode,temperature_2m_max,temperature_2m_min,windspeed_10m_max,uv_index_max&hourly=temperature_2m,weathercode&temperature_unit=${unitParam}&timezone=auto`);
+                // Yahan data fetch karo
+                const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`);
+                const data = await res.json();
+                // FIX: Yahan 'unitParam' ki jagah sirf 'data' pass karo ya direct fetchWeatherByCoords call karo
                 fetchWeatherByCoords(lat, lon, data.city || data.locality || "Your Location", data.countryName || "");
             } catch(e) { fetchWeatherByCoords(lat, lon, "Your Location", ""); }
         }, () => {
