@@ -12,15 +12,45 @@ body {
     min-height: 100vh; 
     color: #ffffff; 
     padding: 20px; 
+    overflow-x: hidden;
 }
 
-/* ---------------- WEATHER BACKGROUNDS & ANIMATIONS ---------------- */
+/* ---------------- SPLASH SCREEN (OPENING INTERFACE) ---------------- */
+.splash-screen {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: linear-gradient(45deg, #FFD700, #4facfe, #708090, #4B0082);
+    background-size: 400% 400%; animation: splashBG 4s ease-in-out infinite;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    z-index: 9999; transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+@keyframes splashBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+.splash-weather-icons { font-size: 65px; margin-bottom: 25px; display: flex; gap: 20px; }
+.s-icon { animation: bounceSplash 1.5s infinite ease-in-out alternate; }
+.s-icon:nth-child(2) { animation-delay: 0.2s; }
+.s-icon:nth-child(3) { animation-delay: 0.4s; }
+.s-icon:nth-child(4) { animation-delay: 0.6s; }
+
+@keyframes bounceSplash {
+    0% { transform: translateY(0); filter: drop-shadow(0 0 10px rgba(255,255,255,0.6)); }
+    100% { transform: translateY(-25px) scale(1.1); filter: drop-shadow(0 15px 15px rgba(0,0,0,0.4)); }
+}
+
+.splash-text {
+    font-size: 45px; font-weight: 800; color: #ffffff; text-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    letter-spacing: 2px; opacity: 0; animation: fadeInText 1.5s ease 0.5s forwards; text-align: center;
+}
+
+@keyframes fadeInText { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+.splash-hidden { opacity: 0; visibility: hidden; }
+
+/* ---------------- WEATHER BACKGROUNDS & PARTICLES ---------------- */
 #weather-bg {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
     z-index: -1; overflow: hidden; transition: background 1.5s ease;
 }
 
-/* Gradients */
 .bg-default { background: linear-gradient(-45deg, #1e3c72, #2a5298); }
 .bg-clear { background: linear-gradient(to bottom, #4facfe 0%, #00f2fe 100%); }
 .bg-hot { background: linear-gradient(to bottom, #ff416c 0%, #ff4b2b 100%); }
@@ -29,12 +59,8 @@ body {
 .bg-snow { background: linear-gradient(to bottom, #8e9eab 0%, #eef2f3 100%); }
 .bg-thunder { background: linear-gradient(to bottom, #141e30 0%, #243b55 100%); animation: lightning 5s infinite; }
 
-@keyframes lightning { 
-    0%, 95%, 98% { background: linear-gradient(to bottom, #141e30, #243b55); } 
-    96%, 99% { background: #ffffff; } 
-}
+@keyframes lightning { 0%, 95%, 98% { background: linear-gradient(to bottom, #141e30, #243b55); } 96%, 99% { background: #ffffff; } }
 
-/* Particles / Elements */
 .sun { position: absolute; top: 15%; right: 15%; width: 120px; height: 120px; background: #FFD700; border-radius: 50%; box-shadow: 0 0 60px #FFD700; animation: pulseSun 4s infinite alternate; }
 .sun.hot { width: 180px; height: 180px; background: #FF4500; box-shadow: 0 0 100px #FF4500, 0 0 200px #FF8C00; }
 @keyframes pulseSun { from { transform: scale(1); opacity: 0.9; } to { transform: scale(1.1); opacity: 1; } }
@@ -46,24 +72,14 @@ body {
 @keyframes fall { to { transform: translateY(110vh); } }
 @keyframes snowFall { to { transform: translateY(110vh) translateX(30px) rotate(360deg); } }
 @keyframes drift { from { transform: translateX(-200px); } to { transform: translateX(110vw); } }
-/* ------------------------------------------------------------------ */
 
-/* Glass Card */
+/* ---------------- GLASS CARD & UI ELEMENTS ---------------- */
 .weather-app { 
-    background: rgba(10, 15, 30, 0.4); 
-    backdrop-filter: blur(25px); 
-    -webkit-backdrop-filter: blur(25px); 
-    border: 1px solid rgba(255, 255, 255, 0.2); 
-    padding: 40px 30px; 
-    border-radius: 30px; 
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5); 
-    width: 100%; 
-    max-width: 500px; 
-    text-align: center; 
-    overflow: hidden; 
+    background: rgba(10, 15, 30, 0.4); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
+    border: 1px solid rgba(255, 255, 255, 0.2); padding: 40px 30px; border-radius: 30px; 
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5); width: 100%; max-width: 500px; text-align: center; overflow: hidden; 
 }
 
-/* Buttons & Inputs */
 .search-section { display: flex; gap: 8px; margin-bottom: 20px; }
 input { flex: 1; padding: 14px 15px; border: 2px solid transparent; outline: none; border-radius: 14px; font-size: 15px; background: rgba(255, 255, 255, 0.15); color: #fff; transition: all 0.3s ease; }
 input::placeholder { color: #e2e8f0; }
@@ -99,16 +115,10 @@ h1 { font-size: 60px; margin: 0; font-weight: 800; letter-spacing: -2px; text-sh
 .hourly-container::-webkit-scrollbar { display: none; }
 .hourly-card { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.1); min-width: 65px; padding: 12px 8px; border-radius: 14px; display: flex; flex-direction: column; align-items: center; gap: 5px; transition: all 0.3s ease; cursor: pointer; }
 .hourly-card:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-3px); }
+.hourly-card.active-hour { background: rgba(79, 172, 254, 0.4); border-color: #4facfe; transform: translateY(-3px); }
 .h-time { font-size: 12px; color: #f1f5f9; }
 .h-icon { font-size: 20px; }
 .h-temp { font-size: 14px; font-weight: bold; color: #fff; }
-
-/* Yeh raha wo naya Hourly Card Active State wala code */
-.hourly-card.active-hour {
-    background: rgba(79, 172, 254, 0.4); 
-    border-color: #4facfe; 
-    transform: translateY(-3px); 
-}
 
 .toggle-btn { width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.2); color: #fff; margin-bottom: 15px; border-radius: 12px; font-size: 15px; font-weight: bold;}
 .toggle-btn:hover { background: rgba(255, 255, 255, 0.25); }
@@ -133,68 +143,3 @@ h1 { font-size: 60px; margin: 0; font-weight: 800; letter-spacing: -2px; text-sh
 
 @keyframes fadeInDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-/* ---------------- SPLASH SCREEN (OPENING INTERFACE) ---------------- */
-.splash-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    /* Mixed weather gradient: Sun(Gold) -> Clear(Blue) -> Cloud(Grey) -> Thunder(Purple) */
-    background: linear-gradient(45deg, #FFD700, #4facfe, #708090, #4B0082);
-    background-size: 400% 400%;
-    animation: splashBG 4s ease-in-out infinite;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; /* Ensure it stays on top of everything */
-    transition: opacity 0.8s ease, visibility 0.8s ease;
-}
-
-@keyframes splashBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-.splash-weather-icons {
-    font-size: 65px;
-    margin-bottom: 25px;
-    display: flex;
-    gap: 20px;
-}
-
-.s-icon {
-    animation: bounceSplash 1.5s infinite ease-in-out alternate;
-}
-/* Staggered bouncing effect for each icon */
-.s-icon:nth-child(2) { animation-delay: 0.2s; }
-.s-icon:nth-child(3) { animation-delay: 0.4s; }
-.s-icon:nth-child(4) { animation-delay: 0.6s; }
-
-@keyframes bounceSplash {
-    0% { transform: translateY(0); filter: drop-shadow(0 0 10px rgba(255,255,255,0.6)); }
-    100% { transform: translateY(-25px) scale(1.1); filter: drop-shadow(0 15px 15px rgba(0,0,0,0.4)); }
-}
-
-.splash-text {
-    font-size: 50px;
-    font-weight: 800;
-    color: #ffffff;
-    text-shadow: 0 5px 20px rgba(0,0,0,0.5);
-    letter-spacing: 3px;
-    opacity: 0;
-    animation: fadeInText 1.5s ease 0.5s forwards; /* Fades in after icons */
-}
-
-@keyframes fadeInText {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-/* Class to fade out and hide the splash screen via JavaScript */
-.splash-hidden {
-    opacity: 0;
-    visibility: hidden;
-}
