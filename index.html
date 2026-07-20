@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Interactive Weather | Shah's Edition</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 🌟 Splash Screen Opening Interface -->
+    <div id="splashScreen" class="splash-screen">
+        <div class="splash-weather-icons">
+            <span class="s-icon">☀️</span>
+            <span class="s-icon">🌧️</span>
+            <span class="s-icon">❄️</span>
+            <span class="s-icon">⚡</span>
+        </div>
+        <h1 class="splash-text">Welcome from Shah</h1>
+    </div>
+
+    <!-- Dynamic Animated Background Layer -->
+    <div id="weather-bg" class="bg-default"></div>
+
+    <div class="weather-app">
+        <div class="search-section">
+            <button id="locationBtn" class="icon-btn" title="Use Live Location">📍</button>
+            <input type="text" id="cityInput" placeholder="Search city (e.g., Madrid, Tokyo)...">
+            <button id="searchBtn">Search</button>
+            <button id="unitBtn" class="icon-btn unit-toggle" title="Toggle °C / °F">°C</button>
+        </div>
+
+        <div id="loader" class="loader hidden">Analyzing Global Data...</div>
+        <div id="errorMsg" class="error hidden"></div>
+
+        <div id="weatherResult" class="hidden">
+            <!-- Current Weather -->
+            <div class="main-weather">
+                <h2 id="cityName">City, Country</h2>
+                <div id="currentDate" class="current-date">--</div>
+                
+                <div id="weatherIcon" class="weather-icon">🌍</div>
+                <h1 id="temperature">--°</h1>
+                <p id="description" class="desc">Weather Description</p>
+                
+                <div class="details">
+                    <div class="detail-box">
+                        <span class="label">Wind</span>
+                        <span class="value" id="windSpeed">-- km/h</span>
+                    </div>
+                    <div class="detail-box">
+                        <span class="label">High / Low</span>
+                        <span class="value" id="highLow">--° / --°</span>
+                    </div>
+                </div>
+
+                <!-- Hourly Forecast -->
+                <div class="hourly-title" id="hourlyTitle">Today's Hourly Forecast</div>
+                <div class="hourly-container" id="hourlyContainer">
+                    <!-- Hourly cards injected by JS -->
+                </div>
+            </div>
+
+            <button id="toggleForecastBtn" class="toggle-btn">View 7-Day Forecast ⬇️</button>
+
+            <!-- 7-Day Forecast -->
+            <div id="forecastSection" class="hidden">
+                <div class="forecast-container" id="forecastContainer"></div>
+            </div>
+
+            <!-- Day Details -->
+            <div id="dayDetailSection" class="day-detail hidden">
+                <h3 id="detailDayName">Day Details</h3>
+                <div class="detail-grid">
+                    <div class="d-box"><span class="d-label">Condition</span><span class="d-val" id="detailCondition">Clear</span></div>
+                    <div class="d-box"><span class="d-label">Max Temp</span><span class="d-val" id="detailMax">--°</span></div>
+                    <div class="d-box"><span class="d-label">Min Temp</span><span class="d-val" id="detailMin">--°</span></div>
+                    <div class="d-box"><span class="d-label">Max Wind</span><span class="d-val" id="detailWind">-- km/h</span></div>
+                    <div class="d-box"><span class="d-label">UV Index</span><span class="d-val" id="detailUV">--</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
