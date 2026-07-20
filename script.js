@@ -135,18 +135,19 @@ async function fetchWeatherByCoords(lat, lon, cityName, countryName) {
     }
 }
 
-function updateBackground(code, temp) {
+function updateBackground(code, temp, isDay = 1) { // Default day mode agar isDay na ho
     weatherBg.innerHTML = ''; 
     weatherBg.className = ''; 
     const tempC = isCelsius ? temp : (temp - 32) * 5/9;
 
     if (code === 0 || code === 1) {
-        if (tempC >= 35) {
+        if (tempC >= 35 && isDay === 1) {
             weatherBg.classList.add('bg-hot');
             weatherBg.innerHTML = '<div class="sun hot"></div>';
         } else {
-            weatherBg.classList.add('bg-clear');
-            weatherBg.innerHTML = '<div class="sun"></div>';
+            // Raat ke liye dark background aur chaand
+            weatherBg.classList.add(isDay === 0 ? 'bg-night-clear' : 'bg-clear');
+            weatherBg.innerHTML = isDay === 0 ? '<div class="moon"></div>' : '<div class="sun"></div>';
         }
     } else if ([2, 3, 45, 48].includes(code)) {
         weatherBg.classList.add('bg-cloudy');
@@ -162,33 +163,6 @@ function updateBackground(code, temp) {
         createParticles('drop', 150); 
     } else {
         weatherBg.classList.add('bg-default');
-    }
-}
-
-function createParticles(type, count) {
-    for(let i=0; i<count; i++) {
-        let el = document.createElement('div');
-        el.className = type;
-        if (type === 'drop') {
-            el.style.left = Math.random() * 100 + 'vw';
-            el.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';
-            el.style.animationDelay = Math.random() * 2 + 's';
-        } else if (type === 'flake') {
-            el.style.left = Math.random() * 100 + 'vw';
-            el.style.animationDuration = (Math.random() * 3 + 3) + 's';
-            el.style.animationDelay = Math.random() * 5 + 's';
-            let size = Math.random() * 6 + 4;
-            el.style.width = size + 'px';
-            el.style.height = size + 'px';
-            el.style.opacity = Math.random();
-        } else if (type === 'cloud') {
-            el.style.top = Math.random() * 50 + 'vh';
-            el.style.width = (Math.random() * 200 + 100) + 'px';
-            el.style.height = (Math.random() * 80 + 40) + 'px';
-            el.style.animationDuration = (Math.random() * 30 + 20) + 's';
-            el.style.animationDelay = '-' + (Math.random() * 20) + 's';
-        }
-        weatherBg.appendChild(el);
     }
 }
 
@@ -218,6 +192,7 @@ function renderHourlyForecast(dayIndex, sym) {
         
         const temp = Math.round(hourlyForecastData.temperature_2m[i]);
         const code = hourlyForecastData.weathercode[i];
+        const isDay = hourlyForecastData.is_day[i]; // API se raat/din check kiya
         const icon = weatherIcons[code] || '☁️';
         
         const card = document.createElement('div');
@@ -227,10 +202,37 @@ function renderHourlyForecast(dayIndex, sym) {
         card.addEventListener('click', () => {
             document.querySelectorAll('.hourly-card').forEach(c => c.classList.remove('active-hour'));
             card.classList.add('active-hour');
-            updateBackground(code, temp);
+            updateBackground(code, temp, isDay); // Yahan raat/din pass kar diya
         });
 
         hourlyContainer.appendChild(card);
+    }
+}
+
+function createParticles(type, count) {
+    for(let i=0; i<count; i++) {
+        let el = document.createElement('div');
+        el.className = type;
+        if (type === 'drop') {
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';
+            el.style.animationDelay = Math.random() * 2 + 's';
+        } else if (type === 'flake') {
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            el.style.animationDelay = Math.random() * 5 + 's';
+            let size = Math.random() * 6 + 4;
+            el.style.width = size + 'px';
+            el.style.height = size + 'px';
+            el.style.opacity = Math.random();
+        } else if (type === 'cloud') {
+            el.style.top = Math.random() * 50 + 'vh';
+            el.style.width = (Math.random() * 200 + 100) + 'px';
+            el.style.height = (Math.random() * 80 + 40) + 'px';
+            el.style.animationDuration = (Math.random() * 30 + 20) + 's';
+            el.style.animationDelay = '-' + (Math.random() * 20) + 's';
+        }
+        weatherBg.appendChild(el);
     }
 }
 
