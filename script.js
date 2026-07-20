@@ -1,3 +1,15 @@
+// ---------------- SPLASH SCREEN LOGIC ----------------
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        const splash = document.getElementById('splashScreen');
+        if (splash) {
+            splash.classList.add('splash-hidden');
+            setTimeout(() => splash.remove(), 1000);
+        }
+    }, 3500); 
+});
+// ---------------- WEATHER APP LOGIC ----------------
+
 const searchBtn = document.getElementById('searchBtn');
 const locationBtn = document.getElementById('locationBtn');
 const unitBtn = document.getElementById('unitBtn');
