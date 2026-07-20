@@ -198,3 +198,39 @@ h1 { font-size: 60px; margin: 0; font-weight: 800; letter-spacing: -2px; text-sh
     opacity: 0;
     visibility: hidden;
 }
+/* 📱 Mobile Responsive Adjustments */
+@media screen and (max-width: 480px) {
+    .weather-app {
+        padding: 20px 15px;
+        border-radius: 20px;
+        width: 95%;
+    }
+
+    h1 { font-size: 45px; } /* Mobile par font size chota kar diya */
+    
+    .search-section {
+        flex-direction: column; /* Mobile par search bar neeche aa jayegi */
+        gap: 10px;
+    }
+
+    .icon-btn {
+        padding: 10px;
+    }
+
+    .details {
+        padding: 10px;
+    }
+
+    .detail-box .value {
+        font-size: 14px;
+    }
+
+    .hourly-card {
+        min-width: 55px;
+        padding: 10px 5px;
+    }
+
+    .splash-text {
+        font-size: 30px; /* Splash screen ka text mobile par fit ho jayega */
+    }
+}
