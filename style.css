@@ -22,7 +22,7 @@ body {
 
 /* Gradients */
 .bg-default { background: linear-gradient(-45deg, #1e3c72, #2a5298); }
-.bg-clear { background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%) !important; }
+.bg-clear { background: linear-gradient(to bottom, #4facfe 0%, #00f2fe 100%); }
 .bg-hot { background: linear-gradient(to bottom, #ff416c 0%, #ff4b2b 100%); }
 .bg-cloudy { background: linear-gradient(to bottom, #606c88 0%, #3f4c6b 100%); }
 .bg-rain { background: linear-gradient(to bottom, #2b4162 0%, #12100e 100%); }
@@ -54,14 +54,13 @@ body {
     backdrop-filter: blur(25px); 
     -webkit-backdrop-filter: blur(25px); 
     border: 1px solid rgba(255, 255, 255, 0.2); 
-    padding: 30px 25px; 
+    padding: 40px 30px; 
     border-radius: 30px; 
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5); 
     width: 100%; 
     max-width: 500px; 
-    max-height: 90vh; /* Screen height ka 90% hi use karega */
     text-align: center; 
-    overflow-y: auto; /* Agar content zyada hua toh sirf card ke andar scroll hoga */
+    overflow: hidden; 
 }
 
 /* Buttons & Inputs */
@@ -134,114 +133,3 @@ h1 { font-size: 60px; margin: 0; font-weight: 800; letter-spacing: -2px; text-sh
 
 @keyframes fadeInDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-/* ---------------- SPLASH SCREEN (OPENING INTERFACE) ---------------- */
-.splash-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    /* Mixed weather gradient: Sun(Gold) -> Clear(Blue) -> Cloud(Grey) -> Thunder(Purple) */
-    background: linear-gradient(45deg, #FFD700, #4facfe, #708090, #4B0082);
-    background-size: 400% 400%;
-    animation: splashBG 4s ease-in-out infinite;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; /* Ensure it stays on top of everything */
-    transition: opacity 0.8s ease, visibility 0.8s ease;
-}
-
-@keyframes splashBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-.splash-weather-icons {
-    font-size: 65px;
-    margin-bottom: 25px;
-    display: flex;
-    gap: 20px;
-}
-
-.s-icon {
-    animation: bounceSplash 1.5s infinite ease-in-out alternate;
-}
-/* Staggered bouncing effect for each icon */
-.s-icon:nth-child(2) { animation-delay: 0.2s; }
-.s-icon:nth-child(3) { animation-delay: 0.4s; }
-.s-icon:nth-child(4) { animation-delay: 0.6s; }
-
-@keyframes bounceSplash {
-    0% { transform: translateY(0); filter: drop-shadow(0 0 10px rgba(255,255,255,0.6)); }
-    100% { transform: translateY(-25px) scale(1.1); filter: drop-shadow(0 15px 15px rgba(0,0,0,0.4)); }
-}
-
-.splash-text {
-    font-size: 50px;
-    font-weight: 800;
-    color: #ffffff;
-    text-shadow: 0 5px 20px rgba(0,0,0,0.5);
-    letter-spacing: 3px;
-    opacity: 0;
-    animation: fadeInText 1.5s ease 0.5s forwards; /* Fades in after icons */
-}
-
-@keyframes fadeInText {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-/* Class to fade out and hide the splash screen via JavaScript */
-.splash-hidden {
-    opacity: 0;
-    visibility: hidden;
-}
-/* 📱 Mobile Responsive Adjustments */
-@media screen and (max-width: 480px) {
-    .weather-app {
-        padding: 20px 15px;
-        border-radius: 20px;
-        width: 95%;
-    }
-
-    h1 { font-size: 45px; } /* Mobile par font size chota kar diya */
-    
-    .search-section {
-        flex-direction: column; /* Mobile par search bar neeche aa jayegi */
-        gap: 10px;
-    }
-
-    .icon-btn {
-        padding: 10px;
-    }
-
-    .details {
-        padding: 10px;
-    }
-
-    .detail-box .value {
-        font-size: 14px;
-    }
-
-    .hourly-card {
-        min-width: 55px;
-        padding: 10px 5px;
-    }
-
-    .splash-text {
-        font-size: 30px; /* Splash screen ka text mobile par fit ho jayega */
-    }
-}
-/* Night Mode Backgrounds */
-.bg-night { background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364); }
-.bg-night-clear { background: linear-gradient(to bottom, #000428, #004e92); }
-
-.moon { 
-    position: absolute; top: 15%; right: 15%; width: 100px; height: 100px; 
-    background: #f1f5f9; border-radius: 50%; box-shadow: 0 0 40px #f1f5f9; 
-    animation: pulseMoon 5s infinite alternate; 
-}
-@keyframes pulseMoon { from { opacity: 0.8; } to { opacity: 1; } }
