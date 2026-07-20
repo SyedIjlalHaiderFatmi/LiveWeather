@@ -179,3 +179,16 @@ h1 { font-size: 60px; margin: 0; font-weight: 800; letter-spacing: -2px; text-sh
         font-size: 30px; /* Splash screen ka text mobile par fit ho jayega */
     }
 }
+/* Night Mode Backgrounds & Moon Animation */
+.bg-night-clear { background: linear-gradient(to bottom, #000428, #004e92); }
+
+.moon { 
+    position: absolute; top: 15%; right: 15%; width: 100px; height: 100px; 
+    background: #f1f5f9; border-radius: 50%; box-shadow: 0 0 40px #f1f5f9; 
+    animation: pulseMoon 5s infinite alternate; 
+}
+
+@keyframes pulseMoon { 
+    from { opacity: 0.8; } 
+    to { opacity: 1; transform: scale(1.05); } 
+}
