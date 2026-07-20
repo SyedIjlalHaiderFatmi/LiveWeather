@@ -125,10 +125,9 @@ async function fetchWeatherByCoords(lat, lon, cityName, countryName) {
     }
 }
 
-function updateBackground(code, temp) {
+function updateBackground(code, temp, isDay) {
     weatherBg.innerHTML = ''; 
     weatherBg.className = ''; 
-
     const tempC = isCelsius ? temp : (temp - 32) * 5/9;
 
     if (code === 0 || code === 1) {
@@ -136,8 +135,8 @@ function updateBackground(code, temp) {
             weatherBg.classList.add('bg-hot');
             weatherBg.innerHTML = '<div class="sun hot"></div>';
         } else {
-            weatherBg.classList.add('bg-clear');
-            weatherBg.innerHTML = '<div class="sun"></div>';
+            weatherBg.classList.add(isDay === 0 ? 'bg-night-clear' : 'bg-clear');
+            weatherBg.innerHTML = isDay === 0 ? '<div class="moon"></div>' : '<div class="sun"></div>';
         }
     } else if ([2, 3, 45, 48].includes(code)) {
         weatherBg.classList.add('bg-cloudy');
@@ -151,8 +150,6 @@ function updateBackground(code, temp) {
     } else if ([95, 96, 99].includes(code)) {
         weatherBg.classList.add('bg-thunder');
         createParticles('drop', 150); 
-    } else {
-        weatherBg.classList.add('bg-default');
     }
 }
 
