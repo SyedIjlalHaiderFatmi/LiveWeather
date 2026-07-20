@@ -58,8 +58,7 @@ locationBtn.addEventListener('click', () => {
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
             try {
-                const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`);
-                const data = await res.json();
+               const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,is_day&daily=weathercode,temperature_2m_max,temperature_2m_min,windspeed_10m_max,uv_index_max&hourly=temperature_2m,weathercode&temperature_unit=${unitParam}&timezone=auto`);
                 fetchWeatherByCoords(lat, lon, data.city || data.locality || "Your Location", data.countryName || "");
             } catch(e) { fetchWeatherByCoords(lat, lon, "Your Location", ""); }
         }, () => {
@@ -103,7 +102,7 @@ async function fetchWeatherByCoords(lat, lon, cityName, countryName) {
     const sym = isCelsius ? '°C' : '°F';
 
     try {
-       const weatherRes = await fetch(\https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,is_day&daily=weathercode,temperature_2m_max,temperature_2m_min,windspeed_10m_max,uv_index_max&hourly=temperature_2m,weathercode&temperature_unit=${unitParam}&timezone=auto`);`
+       const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,is_day&daily=weathercode,temperature_2m_max,temperature_2m_min,windspeed_10m_max,uv_index_max&hourly=temperature_2m,weathercode&temperature_unit=${unitParam}&timezone=auto`);`
         const weatherData = await weatherRes.json();
         
         const current = weatherData.current_weather;
@@ -229,7 +228,7 @@ function renderHourlyForecast(dayIndex, sym) {
         card.addEventListener('click', () => {
             document.querySelectorAll('.hourly-card').forEach(c => c.classList.remove('active-hour'));
             card.classList.add('active-hour');
-            updateBackground(code, temp);
+            updateBackground(code, temp, 1);
         });
 
         hourlyContainer.appendChild(card);
@@ -257,7 +256,7 @@ function buildForecastCards(sym) {
             renderHourlyForecast(i, sym); 
             
             // NEW: Click Event on Day Card to change background
-            updateBackground(code, maxTemp);
+           updateBackground(code, maxTemp, 1);
         });
         
         forecastContainer.appendChild(card);
